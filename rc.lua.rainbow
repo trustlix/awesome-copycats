@@ -1,8 +1,9 @@
 --[[
                                    
      Rainbow Awesome WM config 2.0 
-     github.com/copycat-killer     
-                                   
+     github.com/copycat-killer
+
+     trstls additions ;-)
 --]]
 
 -- {{{ Required libraries
@@ -47,8 +48,13 @@ function run_once(cmd)
   awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme .. " > /dev/null || (" .. cmd .. ")")
 end
 
-run_once("urxvtd")
-run_once("unclutter -root")
+run_once("xcompmgr")
+--run_once("urxvtd")
+--run_once("unclutter -root")
+run_once("conky")
+run_once("wicd-gtk -t")
+run_once("parcellite")
+run_once("xscreensaver -no-splash")
 -- }}}
 
 -- {{{ Variable definitions
@@ -59,12 +65,13 @@ beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/rainbow/theme.lua")
 -- common
 modkey     = "Mod4"
 altkey     = "Mod1"
-terminal   = "urxvtc" or "xterm"
-editor     = os.getenv("EDITOR") or "nano" or "vi"
+terminal   = "urxvt -ls" or "xterm"
+editor     = os.getenv("EDITOR") or "vim" or "nano" or "vi"
 editor_cmd = terminal .. " -e " .. editor
 
 -- user defined
-browser    = "firefox"
+browser    = "google-chrome"
+browser2   = "firefox"
 gui_editor = "gvim"
 graphics   = "gimp"
 
@@ -73,14 +80,14 @@ lain.layout.termfair.nmaster = 3
 lain.layout.termfair.ncol    = 1
 
 local layouts = {
-    awful.layout.suit.floating,
     awful.layout.suit.fair,
     awful.layout.suit.tile,
-    lain.layout.uselessfair.horizontal,
-    lain.layout.uselesstile,
-    lain.layout.uselessfair,
-    lain.layout.termfair,
-    lain.layout.uselesspiral.dwindle
+    awful.layout.suit.max,
+    awful.layout.suit.tile.left,
+    awful.layout.suit.tile.bottom,
+    awful.layout.suit.tile.top,
+    awful.layout.suit.fair.horizontal,
+    awful.layout.suit.magnifier
 }
 
 -- quake terminal
@@ -92,8 +99,8 @@ end
 
 -- {{{ Tags
 tags = {
-    names = { "www", "dev", "docs", "media" },
-    layout = { layouts[1], layouts[2], layouts[3], layouts[4] }
+    names = { "1", "2", "3", "4" },
+    layout = { layouts[3], layouts[1], layouts[1], layouts[1] }
 }
 for s = 1, screen.count() do
    tags[s] = awful.tag(tags.names, s, tags.layout)
@@ -101,6 +108,7 @@ end
 -- }}}
 
 -- {{{ Wallpaper
+beautiful.wallpaper = "/home/trustlix/temp/wallpapers/photos/peru_train_hd.jpg"
 if beautiful.wallpaper then
     for s = 1, screen.count() do
         gears.wallpaper.maximized(beautiful.wallpaper, s, true)
@@ -151,6 +159,7 @@ mailwidget = lain.widgets.imap({
 ]]
 
 -- MPD
+--[[
 mpdwidget = lain.widgets.mpd({
     settings = function()
         mpd_notification_preset.fg = white
@@ -169,8 +178,9 @@ mpdwidget = lain.widgets.mpd({
         widget:set_markup(markup(gray, artist) .. markup(white, title))
     end
 })
+]]
 
--- /home fs
+--[[ /home fs
 fshome = lain.widgets.fs({
     partition = "/home",
     settings  = function()
@@ -187,6 +197,7 @@ fshome = lain.widgets.fs({
         widget:set_markup(markup(gray, hdd) .. markup(white, p))
     end
 })
+]]
 
 -- ALSA volume bar
 volume = lain.widgets.alsabar({ card = "0", ticks = true })
@@ -304,9 +315,9 @@ for s = 1, screen.count() do
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
     right_layout:add(small_spr)
-    right_layout:add(mpdwidget)
+    --right_layout:add(mpdwidget)
     --right_layout:add(mailwidget)
-    right_layout:add(fshome)
+    --right_layout:add(fshome)
     right_layout:add(med_spr)
     right_layout:add(volumewidget)
     right_layout:add(mytextclock)
@@ -406,12 +417,13 @@ globalkeys = awful.util.table.join(
                 client.focus:raise()
             end
         end),
-    awful.key({ altkey, "Shift"   }, "l",      function () awful.tag.incmwfact( 0.05)     end),
-    awful.key({ altkey, "Shift"   }, "h",      function () awful.tag.incmwfact(-0.05)     end),
-    awful.key({ modkey, "Shift"   }, "l",      function () awful.tag.incnmaster(-1)       end),
-    awful.key({ modkey, "Shift"   }, "h",      function () awful.tag.incnmaster( 1)       end),
-    awful.key({ modkey, "Control" }, "l",      function () awful.tag.incncol(-1)          end),
-    awful.key({ modkey, "Control" }, "h",      function () awful.tag.incncol( 1)          end),
+    --awful.key({ altkey, "Shift"   }, "l",      function () awful.tag.incmwfact( 0.05)     end),
+    --awful.key({ altkey, "Shift"   }, "h",      function () awful.tag.incmwfact(-0.05)     end),
+    --awful.key({ modkey, "Shift"   }, "l",      function () awful.tag.incnmaster(-1)       end),
+    --awful.key({ modkey, "Shift"   }, "h",      function () awful.tag.incnmaster( 1)       end),
+    --awful.key({ modkey, "Control" }, "l",      function () awful.tag.incncol(-1)          end),
+    --awful.key({ modkey, "Control" }, "h",      function () awful.tag.incncol( 1)          end),
+    awful.key({ modkey, "Shift"   }, "l",      function () awful.util.spawn( "xscreensaver-command -lock" ) end),
     awful.key({ modkey,           }, "space",  function () awful.layout.inc(layouts,  1)  end),
     awful.key({ modkey, "Shift"   }, "space",  function () awful.layout.inc(layouts, -1)  end),
     awful.key({ modkey, "Control" }, "n",      awful.client.restore),
@@ -452,6 +464,7 @@ globalkeys = awful.util.table.join(
             volume.update()
         end),
 
+    --[[
     -- MPD control
     awful.key({ altkey, "Control" }, "Up",
         function ()
@@ -473,6 +486,7 @@ globalkeys = awful.util.table.join(
             awful.util.spawn_with_shell("mpc next || ncmpc next || pms next")
             mpdwidget.update()
         end),
+    ]]
 
     -- Copy to clipboard
     awful.key({ modkey }, "c", function () os.execute("xsel -p -o | xsel -i -b") end),
@@ -573,6 +587,15 @@ awful.rules.rules = {
                      keys = clientkeys,
                      buttons = clientbuttons,
 	                   size_hints_honor = false } },
+    { rule = { class = "URxvt" },
+          properties = { opacity = 0.99 } },
+
+    { rule = { class = "MPlayer" },
+          properties = { floating = true } },
+
+    { rule = { class = "Google-chrome-stable" },
+          properties = { tag = tags[1][1] } },
+    
     { rule = { class = "Firefox" },
           properties = { tag = tags[1][1] } },
 
@@ -585,6 +608,10 @@ awful.rules.rules = {
     { rule = { class = "Gimp", role = "gimp-image-window" },
           properties = { maximized_horizontal = true,
                          maximized_vertical = true } },
+    { rule = { class = "Conky" },
+          properties = {  focusable = false, 
+                          sticky = true, 
+                          skip_taskbar = true } },
 }
 -- }}}
 
@@ -672,4 +699,8 @@ for s = 1, screen.count() do screen[s]:connect_signal("arrange",
         end
     end)
 end
+-- }}}
+
+-- dummy taskbar so windows don't overlap conky
+mystatusbar = awful.wibox({ position = "bottom", screen = 1, ontop = false, width = 1, height = 16 })
 -- }}}
