@@ -592,7 +592,6 @@ globalkeys = awful.util.table.join(
 
     --[[ Default
     -- Prompt
-    awful.key({ modkey }, "r", function () mypromptbox[mouse.screen]:run() end),
 
     awful.key({ modkey }, "x",
               function ()
@@ -604,6 +603,9 @@ globalkeys = awful.util.table.join(
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end)
     --]]
+
+    -- run command
+    awful.key({ modkey }, "r", function () mypromptbox[mouse.screen]:run() end),
 
     -- dmenu
     awful.key({ modkey }, "x", function ()
@@ -712,7 +714,7 @@ awful.rules.rules = {
     { rule = { class = "Keepassx" },
      	  properties = { tag = tags[1][6] } },
 
-    { rule = { class = "Google-chrome-stable" },
+    { rule = { class = "google-chrome" },
           properties = { tag = tags[1][1] } },
 
     { rule = { class = "Firefox" },
