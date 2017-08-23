@@ -226,6 +226,7 @@ batwidget = lain.widgets.bat({
     end
 })
 
+--[[
 -- ALSA volume
 volicon = wibox.widget.imagebox(beautiful.widget_vol)
 volumewidget = lain.widgets.alsa({
@@ -237,6 +238,7 @@ volumewidget = lain.widgets.alsa({
         widget:set_markup(markup("#7493d2", volume_now.level .. "% "))
     end
 })
+--]]
 
 -- Net
 netdownicon = wibox.widget.imagebox(beautiful.widget_netdown)
@@ -387,7 +389,7 @@ for s = 1, screen.count() do
     right_layout:add(netdowninfo)
     right_layout:add(netupicon)
     right_layout:add(netupinfo)
-    right_layout:add(volicon)
+    --right_layout:add(volicon)
     right_layout:add(volumewidget)
     right_layout:add(memicon)
     right_layout:add(memwidget)
