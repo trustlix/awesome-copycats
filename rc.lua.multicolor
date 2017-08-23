@@ -390,7 +390,7 @@ for s = 1, screen.count() do
     right_layout:add(netupicon)
     right_layout:add(netupinfo)
     --right_layout:add(volicon)
-    right_layout:add(volumewidget)
+    --right_layout:add(volumewidget)
     right_layout:add(memicon)
     right_layout:add(memwidget)
     right_layout:add(cpuicon)
@@ -540,6 +540,7 @@ globalkeys = awful.util.table.join(
     awful.key({ altkey,           }, "h",      function () fswidget.show(7) end),
     --awful.key({ altkey,           }, "w",      function () myweather.show(7) end),
 
+    --[[
     -- ALSA volume control
     awful.key({ altkey }, "Up",
         function ()
@@ -561,6 +562,7 @@ globalkeys = awful.util.table.join(
             os.execute(string.format("amixer set %s 100%%", volumewidget.channel))
             volumewidget.update()
         end),
+    --]]
 
     -- MPD control
     awful.key({ altkey, "Control" }, "Up",
